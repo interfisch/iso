@@ -61,12 +61,19 @@ if(isset($_POST['submit'])){
     }
 
     if(isset($_POST['editpass'])){
-        if(strlen($_POST['password']) < 3){
+        if((strlen($_POST['password']) < 3) && (strlen($_POST['password']) > 0)){
             $error[] = 'Password is too short.';
         }
+        if(strlen($_POST['password']) == 0){
+            $error[] = 'Password could not be empty.';
+        }
 
-        if(strlen($_POST['passwordConfirm']) < 3){
-            $error[] = 'Confirm password is too short.';
+        if((strlen($_POST['passwordConfirm']) < 3)&&(strlen($_POST['passwordConfirm']) > 0)){
+            $error[] = 'Confirmed password is too short.';
+        }
+
+        if(strlen($_POST['passwordConfirm']) == 0){
+            $error[] = 'Confirmed password could not be empty.';
         }
 
         if($_POST['password'] != $_POST['passwordConfirm']){
@@ -171,8 +178,6 @@ $title = 'Isomemo user';
 //include header template
 require('layout/header.php');
 ?>
-
-
     <div class="container">
 
         <div class="row">
@@ -195,11 +200,8 @@ require('layout/header.php');
                     }
                     ?>
 
-                    <div class="form-group">
+                    <div class="form-group required">
                         <input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php echo $old_name; ?>" tabindex="1">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php echo $old_email; ?>" tabindex="2">
                     </div>
                     <div class="form-group">
                         <div class="input-group-prepend" style="float: left; margin-right: 10px">
@@ -209,7 +211,7 @@ require('layout/header.php');
                         </div>
                         <label>Please confirm if you want to change the password</label>
                     </div>
-                    <div class="row">
+                    <div class="row pass-edit">
                         <div class="col-xs-6 col-sm-6 col-md-6">
                             <div class="form-group">
                                 <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="4">
@@ -223,17 +225,17 @@ require('layout/header.php');
                     </div>
                     <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <input type="text" name="firstname" id="firstname" class="form-control input-lg" placeholder="First name" value="<?php echo $old_firstname; ?>" tabindex="6">
                             </div>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6">
-                            <div class="form-group">
+                            <div class="form-group required">
                                 <input type="text" name="lastname" id="lastname" class="form-control input-lg" placeholder="Last name" value="<?php echo $old_lastname; ?>" tabindex="7">
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php echo $old_email; ?>" tabindex="8">
                     </div>
                     <div class="form-group">

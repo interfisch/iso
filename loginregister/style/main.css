@@ -6,3 +6,20 @@ a {
 	color: #EF1F2F;
 	text-decoration: none;
 }
+
+.form-group.required {
+	 position: relative;
+ }
+
+.form-group.required:after {
+	position: absolute;
+	content:"*";
+	color:red;
+	right:-10px;
+	top:40%;
+}
+
+.form-group em {
+	color: red;
+	margin-right: 20px;
+}

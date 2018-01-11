@@ -24,9 +24,9 @@ class User extends Password{
 	}
 
 	public function isValidUsername($username){
+		$username = $str = trim($username);
 		if (strlen($username) < 3) return false;
 		if (strlen($username) > 17) return false;
-		if (!ctype_alnum($username)) return false;
 		return true;
 	}
 

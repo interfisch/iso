@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
 
 	//very basic validation
 	if(!$user->isValidUsername($username)){
-		$error[] = 'Usernames must be at least 3 Alphanumeric characters';
+		$error[] = strlen($username).'Usernames must be at least 3 Alphanumeric characters';
 	} else {
 		$stmt = $db->prepare('SELECT username FROM members WHERE username = :username');
 		$stmt->execute(array(':username' => $username));
@@ -37,14 +37,18 @@ if(isset($_POST['submit'])){
 
 	}
 
-	if(strlen($_POST['password']) < 3){
+	if((strlen($_POST['password']) < 3) && (strlen($_POST['password']) > 0)){
 		$error[] = 'Password is too short.';
 	}
-
-	if(strlen($_POST['passwordConfirm']) < 3){
+	if(strlen($_POST['password']) == 0){
+		$error[] = 'Password could not be empty.';
+	}
+	if((strlen($_POST['passwordConfirm']) < 3)&&(strlen($_POST['passwordConfirm']) > 0)){
 		$error[] = 'Confirm password is too short.';
 	}
-
+	if(strlen($_POST['passwordConfirm']) == 0){
+		$error[] = 'Confirmed password could not be empty.';
+	}
 	if($_POST['password'] != $_POST['passwordConfirm']){
 		$error[] = 'Passwords do not match.';
 	}
@@ -130,8 +134,6 @@ $title = 'Isomemo user';
 //include header template
 require('layout/header.php');
 ?>
-
-
 <div class="container">
 
 	<div class="row">
@@ -141,7 +143,9 @@ require('layout/header.php');
 				<h2>Please Sign Up</h2>
 				<p>Already a member? <a href='login.php'>Login</a></p>
 				<hr>
-
+				<div class="form-group">
+					<em>*</em> Required field
+				</div>
 				<?php
 				//check for any errors
 				if(isset($error)){
@@ -156,35 +160,35 @@ require('layout/header.php');
 				}
 				?>
 
-				<div class="form-group">
-					<input type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['username'], ENT_QUOTES); } ?>" tabindex="1">
+				<div class="form-group required">
+					<input required="true" type="text" name="username" id="username" class="form-control input-lg" placeholder="User Name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['username'], ENT_QUOTES); } ?>" tabindex="1">
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="2">
+						<div class="form-group required">
+							<input required="true" type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="2">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirm Password" tabindex="3">
+						<div class="form-group required">
+							<input required="true" type="password" name="passwordConfirm" id="passwordConfirm" class="form-control input-lg" placeholder="Confirm Password" tabindex="3">
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="text" name="firstname" id="firstname" class="form-control input-lg" placeholder="First name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['firstname'], ENT_QUOTES); } ?>" tabindex="4">
+						<div class="form-group required">
+							<input required="true" type="text" name="firstname" id="firstname" class="form-control input-lg" placeholder="First name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['firstname'], ENT_QUOTES); } ?>" tabindex="4">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6">
-						<div class="form-group">
-							<input type="text" name="lastname" id="lastname" class="form-control input-lg" placeholder="Last name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['lastname'], ENT_QUOTES); } ?>" tabindex="5">
+						<div class="form-group required">
+							<input required="true" type="text" name="lastname" id="lastname" class="form-control input-lg" placeholder="Last name" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['lastname'], ENT_QUOTES); } ?>" tabindex="5">
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
-					<input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['email'], ENT_QUOTES); } ?>" tabindex="6">
+				<div class="form-group required">
+					<input required="true" type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['email'], ENT_QUOTES); } ?>" tabindex="6">
 				</div>
 				<div class="form-group">
 					<input type="email" name="secondaryemail" id="secondary-email" class="form-control input-lg" placeholder="secondary Email Address" value="<?php if(isset($error)){ echo htmlspecialchars($_POST['secondaryemail'], ENT_QUOTES); } ?>" tabindex="7">
